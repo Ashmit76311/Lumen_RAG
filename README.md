@@ -148,12 +148,8 @@ npm run dev
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 👤 Author
 
-**Dhruv Singhal**
-- GitHub: [@dhruvsinghal09](https://github.com/dhruvsinghal09)
-- Project: [Adaptive RAG](https://github.com/dhruvsinghal09/Adaptive-Rag)
+**Ashmit Kumar Srivastav**
+- GitHub: [@Ashmit76311](https://github.com/Ashmit76311)
+- Project: [Adaptive RAG](https://github.com/Ashmit76311/Lumen_RAG)
