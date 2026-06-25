@@ -71,7 +71,7 @@ The system dynamically routes queries based on classification, utilizing local v
 - Python 3.9+
 - Docker & Docker Compose
 - Node.js 20+ (for local frontend development)
-- OpenAI API key
+- Groq API key
 - Tavily API key (for web search)
 
 ### 2. Environment Configuration
@@ -79,8 +79,8 @@ The system dynamically routes queries based on classification, utilizing local v
 Create a `.env` file in the project root:
 
 ```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
+# Groq Configuration
+GROQ_API_KEY=your_groq_api_key_here
 
 # Tavily Search Configuration
 TAVILY_API_KEY=your_tavily_api_key_here
