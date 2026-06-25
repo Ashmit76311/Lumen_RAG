@@ -1,0 +1,72 @@
+/* Colors */
+:root {
+  --color-bg-base:        #080D1A;   /* Page background */
+  --color-bg-surface:     #0D1224;   /* Sidebar, cards */
+  --color-bg-elevated:    #111827;   /* Input fields, hover states */
+  --color-border:         rgba(255, 255, 255, 0.07);
+  --color-border-violet:  rgba(124, 58, 237, 0.35);
+
+  --color-violet-500:     #7C3AED;
+  --color-violet-400:     #A78BFA;
+  --color-violet-gradient: linear-gradient(135deg, #7C3AED, #A78BFA);
+
+  --color-text-primary:   #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  --color-text-muted:     #4B5563;
+
+  --color-success:        #10B981;
+  --color-error:          #EF4444;
+  --color-warning:        #F59E0B;
+
+  /* Typography */
+  --font-display: 'Space Grotesk', sans-serif;   /* headings, labels, nav */
+  --font-body:    'Inter', sans-serif;            /* chat messages, body copy */
+
+  /* Spacing scale: 4px base */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
+  --space-4: 16px;  --space-5: 20px;  --space-6: 24px;
+  --space-8: 32px;  --space-10: 40px; --space-12: 48px;
+
+  /* Radius */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-violet: 0 0 0 2px rgba(124, 58, 237, 0.4);
+  --shadow-card:   0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: #080D1A;
+  color: #F9FAFB;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, label, button, nav {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Dot grid background texture — apply to page-level backgrounds */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 4px; }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid #7C3AED;
+  outline-offset: 2px;
+}
