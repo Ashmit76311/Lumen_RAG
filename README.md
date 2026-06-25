@@ -11,6 +11,8 @@
 
 The system dynamically routes queries based on classification, utilizing local vector-indexed documents, general LLM knowledge, or real-time web search (Tavily). It uses **LangGraph** for workflow orchestration, **FastAPI** for high-performance backend serving, and **React + Vite** for a modern user experience.
 
+LIVE DEMO - https://lumen-rag-murex.vercel.app/
+
 ---
 
 ## 🎨 Application Preview
