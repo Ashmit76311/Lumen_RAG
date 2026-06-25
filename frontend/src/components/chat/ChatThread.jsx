@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Sparkles, Send } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import './ChatThread.css';
 

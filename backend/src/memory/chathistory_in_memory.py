@@ -13,9 +13,7 @@ class ChatInMemoryHistory:
 
     @classmethod
     def get_session_history(
-        cls,
-        session_id: str,
-        config: dict = None
+        cls, session_id: str, config: dict = None
     ) -> BaseChatMessageHistory:
         """
         Get or create chat history for a session.

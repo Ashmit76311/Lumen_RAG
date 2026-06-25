@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/sidebar/Sidebar';
 import ChatThread from '../components/chat/ChatThread';
@@ -17,16 +17,7 @@ export default function DashboardPage() {
   const [isThinking, setIsThinking] = useState(false);
   const [sessionId] = useState(() => Date.now().toString()); // Simple session ID for RAG
 
-  useEffect(() => {
-    const token = localStorage.getItem('lumen_token');
-    if (!token) {
-      navigate('/auth');
-      return;
-    }
-    fetchDocuments();
-  }, [navigate]);
-
-  const fetchDocuments = async () => {
+  const fetchDocuments = useCallback(async () => {
     try {
       const token = localStorage.getItem('lumen_token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -45,7 +36,16 @@ export default function DashboardPage() {
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('lumen_token');
+    if (!token) {
+      navigate('/auth');
+      return;
+    }
+    fetchDocuments();
+  }, [navigate, fetchDocuments]);
 
   const handleUploadSuccess = (newDoc) => {
     showToast(`✓ ${newDoc.name} uploaded`, 'success');
@@ -67,6 +67,7 @@ export default function DashboardPage() {
         showToast("Failed to delete document", "error");
       }
     } catch (err) {
+      console.error(err);
       showToast("Network error. Check your connection.", "error");
     }
   };

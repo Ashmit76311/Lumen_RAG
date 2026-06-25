@@ -24,11 +24,13 @@ else:
     description = None
 
 # Create ReAct agent prompt
-prompt = ChatPromptTemplate.from_messages([
-    ("system", config.prompt("system_prompt")),
-    ("human", "{input}"),
-    ("ai", "{agent_scratchpad}")
-])
+prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", config.prompt("system_prompt")),
+        ("human", "{input}"),
+        ("ai", "{agent_scratchpad}"),
+    ]
+)
 
 # Initialize the ReAct agent and executor
 react_agent = create_react_agent(llm, tools, prompt)
@@ -38,5 +40,5 @@ agent_executor = AgentExecutor(
     handle_parsing_errors=True,
     max_iterations=2,
     verbose=True,
-    return_intermediate_steps=True
+    return_intermediate_steps=True,
 )

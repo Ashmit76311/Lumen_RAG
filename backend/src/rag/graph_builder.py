@@ -40,14 +40,18 @@ def query_classifier(state: State):
     llm_with_structured_output = llm.with_structured_output(RouteIdentifier)
     classify_prompt = PromptTemplate(
         template=config.prompt("classify_prompt"),
-        input_variables=["question", "context"]
+        input_variables=["question", "context"],
     )
     chain = classify_prompt | llm_with_structured_output
     result = chain.invoke({"question": question, "context": context})
     print("result received is in query classifier")
     print(result.route)
 
-    return {"messages": state["messages"], "route": result.route, "latest_query": question}
+    return {
+        "messages": state["messages"],
+        "route": result.route,
+        "latest_query": question,
+    }
 
 
 def general_llm(state: State):
@@ -84,19 +88,19 @@ def retriever_node(state: State):
     tool_calls = []
     if intermediate_steps:
         for action, tool_result in intermediate_steps:
-            tool_calls.append({
-                "tool": action.tool,
-                "input": action.tool_input,
-            })
+            tool_calls.append(
+                {
+                    "tool": action.tool,
+                    "input": action.tool_input,
+                }
+            )
 
     new_message = AIMessage(
         content=result["output"],
         additional_kwargs={"tool_calls": tool_calls},
     )
 
-    return {
-        "messages": [new_message]
-    }
+    return {"messages": [new_message]}
 
 
 def grade(state: State):
@@ -111,7 +115,7 @@ def grade(state: State):
     """
     grading_prompt = PromptTemplate(
         template=config.prompt("grading_prompt"),
-        input_variables=["question", "context"]
+        input_variables=["question", "context"],
     )
     context = state["messages"][-1].content
     question = state["latest_query"]
@@ -137,16 +141,13 @@ def rewrite_query(state: State):
     """
     query = state["latest_query"]
     rewrite_prompt = PromptTemplate(
-        template=config.prompt("rewrite_prompt"),
-        input_variables=["query"]
+        template=config.prompt("rewrite_prompt"), input_variables=["query"]
     )
     chain = rewrite_prompt | llm
     result = chain.invoke({"query": query})
     print(result)
 
-    return {
-        "latest_query": result.content
-    }
+    return {"latest_query": result.content}
 
 
 def generate(state: State):
@@ -162,8 +163,7 @@ def generate(state: State):
     context = state["messages"][-1].content
 
     generate_prompt = PromptTemplate(
-        template=config.prompt("generate_prompt"),
-        input_variables=["context"]
+        template=config.prompt("generate_prompt"), input_variables=["context"]
     )
 
     generate_chain = generate_prompt | llm
@@ -191,9 +191,7 @@ def web_search(state: State):
     contents = [item["content"] for item in result if "content" in item]
     print(contents)
 
-    return {
-        "messages": [{"role": "assistant", "content": "\n\n".join(contents)}]
-    }
+    return {"messages": [{"role": "assistant", "content": "\n\n".join(contents)}]}
 
 
 # Build the graph
@@ -217,4 +215,3 @@ graph.add_edge("generate", END)
 graph.add_edge("general_llm", END)
 
 builder = graph.compile()
-

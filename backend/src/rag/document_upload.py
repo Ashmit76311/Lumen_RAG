@@ -34,16 +34,15 @@ def documents(description: str, file: UploadFile = File(...)):
     print(filename)
     if not filename.endswith(".pdf") and not filename.endswith(".txt"):
         from fastapi import HTTPException
+
         raise HTTPException(
-            status_code=400,
-            detail="Only PDF and TXT files are supported"
+            status_code=400, detail="Only PDF and TXT files are supported"
         )
 
     file_bytes = file.file.read()
 
     with tempfile.NamedTemporaryFile(
-        delete=False,
-        suffix=os.path.splitext(filename)[1]
+        delete=False, suffix=os.path.splitext(filename)[1]
     ) as tmp_file:
         tmp_file.write(file_bytes)
         tmp_path = tmp_file.name
@@ -57,10 +56,8 @@ def documents(description: str, file: UploadFile = File(...)):
         docs = loader.load()
     except Exception as e:
         from fastapi import HTTPException
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error loading file: {e}"
-        )
+
+        raise HTTPException(status_code=500, detail=f"Error loading file: {e}")
     finally:
         os.unlink(tmp_path)
 
@@ -76,14 +73,7 @@ def documents(description: str, file: UploadFile = File(...)):
         print(f.read())
 
     # Split documents into chunks
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=150
-    )
+    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
     chunks = splitter.split_documents(docs)
 
     return retriever_chain(chunks)
-
-
-
-

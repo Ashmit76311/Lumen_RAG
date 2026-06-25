@@ -9,12 +9,8 @@ from langchain_core.tools import create_retriever_tool
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import VectorParams, Distance
-
-from src.core.config import settings
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
 
 
 def retriever_chain(chunks: list[Document]):
@@ -28,13 +24,13 @@ def retriever_chain(chunks: list[Document]):
         Boolean indicating success of the operation.
     """
     try:
-        vectorstore = QdrantVectorStore.from_documents(
+        QdrantVectorStore.from_documents(
             documents=chunks,
             embedding=embeddings,
             url=os.getenv("QDRANT_URL", "http://qdrant:6333"),
             api_key=os.getenv("QDRANT_API_KEY", ""),
             collection_name=os.getenv("CODE_COLLECTION", "adaptive_rag_docs"),
-            force_recreate=True
+            force_recreate=True,
         )
 
         print("Qdrant vector store initialized with documents")
@@ -62,16 +58,16 @@ def get_retriever():
         url = os.getenv("QDRANT_URL", "http://qdrant:6333")
         api_key = os.getenv("QDRANT_API_KEY", "")
         collection_name = os.getenv("CODE_COLLECTION", "adaptive_rag_docs")
-        
+
         client = QdrantClient(url=url, api_key=api_key)
-        
+
         if not client.collection_exists(collection_name):
             print("No documents uploaded yet, creating dummy vectorstore in Qdrant")
             from langchain_core.documents import Document as LangChainDocument
 
             dummy_doc = LangChainDocument(
                 page_content="No documents have been uploaded yet. Please upload a document first.",
-                metadata={"source": "initialization"}
+                metadata={"source": "initialization"},
             )
             vectorstore = QdrantVectorStore.from_documents(
                 documents=[dummy_doc],
@@ -79,7 +75,7 @@ def get_retriever():
                 url=url,
                 api_key=api_key,
                 collection_name=collection_name,
-                force_recreate=True
+                force_recreate=True,
             )
         else:
             vectorstore = QdrantVectorStore.from_existing_collection(
@@ -102,7 +98,7 @@ def get_retriever():
             retriever,
             "retriever_customer_uploaded_documents",
             f"Use this tool **only** to answer questions about: {description}\n"
-            "Don't use this tool to answer anything else."
+            "Don't use this tool to answer anything else.",
         )
 
         return retriever_tool
@@ -110,5 +106,6 @@ def get_retriever():
     except Exception as e:
         print(f"Error initializing retriever: {e}")
         import traceback
+
         traceback.print_exc()
         raise Exception(e)

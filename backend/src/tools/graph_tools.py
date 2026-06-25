@@ -69,17 +69,15 @@ def verify_answer(state: State) -> Literal["__end__", "generate"]:
 
     verify_prompt = PromptTemplate(
         template=config.prompt("verify_prompt"),
-        input_variables=["question", "context", "final_answer"]
+        input_variables=["question", "context", "final_answer"],
     )
     llm_with_verification = llm.with_structured_output(VerificationResult)
 
     verify_chain = verify_prompt | llm_with_verification
 
-    result = verify_chain.invoke({
-        "question": question,
-        "context": context,
-        "final_answer": final_answer
-    })
+    result = verify_chain.invoke(
+        {"question": question, "context": context, "final_answer": final_answer}
+    )
 
     if result.faithful:
         return "__end__"

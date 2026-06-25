@@ -74,6 +74,7 @@ export default function Sidebar({ documents, selectedDocument, onSelectDocument,
       setDescription('');
       if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (err) {
+      console.error(err);
       onUploadError("Upload failed. Please try again.");
     } finally {
       setIsUploading(false);
