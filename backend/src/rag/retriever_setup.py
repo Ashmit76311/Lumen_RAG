@@ -6,11 +6,11 @@ import os
 
 from langchain_core.documents import Document
 from langchain_core.tools import create_retriever_tool
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = FastEmbedEmbeddings()
 
 
 def retriever_chain(chunks: list[Document]):
