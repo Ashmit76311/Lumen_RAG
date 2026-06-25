@@ -17,11 +17,9 @@ The system dynamically routes queries based on classification, utilizing local v
 
 ### Landing Page
 ![Lumen Landing Page](./docs/assets/landing.png)
-*(Note: Save your landing page screenshot here to view the preview)*
 
 ### Chat Dashboard
 ![Lumen Dashboard Preview](./docs/assets/dashboard.png)
-*(Note: Save your dashboard screenshot here to view the preview)*
 
 ---
 
@@ -60,6 +58,9 @@ The system dynamically routes queries based on classification, utilizing local v
 | **Vector Database** | Qdrant |
 | **Document Database** | MongoDB |
 | **Authentication** | JWT (`python-jose`, `passlib`, `bcrypt`) |
+
+### WorkFlow
+![Lumen Working](./docs/assets/adaptive_RAG.png)
 
 ---
 
