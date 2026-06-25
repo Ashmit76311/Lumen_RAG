@@ -1,4 +1,4 @@
-# Adaptive RAG - Lumen UI
+# Lumen AI - (Adaptive RAG)
 
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green.svg)](https://fastapi.tiangolo.com/)
@@ -153,4 +153,4 @@ npm run dev
 
 **Ashmit Kumar Srivastav**
 - GitHub: [@Ashmit76311](https://github.com/Ashmit76311)
-- Project: [Adaptive RAG](https://github.com/Ashmit76311/Lumen_RAG)
+- Project: [Lumen AI](https://github.com/Ashmit76311/Lumen_RAG)
