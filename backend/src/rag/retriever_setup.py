@@ -25,7 +25,7 @@ def retriever_chain(chunks: list[Document]):
             embedding=embeddings,
             url=os.getenv("QDRANT_URL", "http://qdrant:6333"),
             api_key=os.getenv("QDRANT_API_KEY", ""),
-            collection_name=os.getenv("CODE_COLLECTION", "adaptive_rag_docs"),
+            collection_name=os.getenv("QDRANT_CODE_COLLECTION", "adaptive_rag_docs"),
             force_recreate=True,
         )
 
@@ -53,7 +53,7 @@ def get_retriever():
     try:
         url = os.getenv("QDRANT_URL", "http://qdrant:6333")
         api_key = os.getenv("QDRANT_API_KEY", "")
-        collection_name = os.getenv("CODE_COLLECTION", "adaptive_rag_docs")
+        collection_name = os.getenv("QDRANT_CODE_COLLECTION", "adaptive_rag_docs")
 
         client = QdrantClient(url=url, api_key=api_key)
 
