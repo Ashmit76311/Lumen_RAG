@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from langchain_core.documents import Document
 from langchain_core.tools import create_retriever_tool
@@ -89,8 +90,9 @@ def get_retriever():
 
         retriever = vectorstore.as_retriever()
 
-        if os.path.exists("description.txt"):
-            with open("description.txt", "r", encoding="utf-8") as f:
+        desc_path = os.path.join(tempfile.gettempdir(), "description.txt")
+        if os.path.exists(desc_path):
+            with open(desc_path, "r", encoding="utf-8") as f:
                 description = f.read()
         else:
             description = None
