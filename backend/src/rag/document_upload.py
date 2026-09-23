@@ -2,7 +2,8 @@ import os
 import tempfile
 
 from fastapi import UploadFile, File
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_core.documents import Document
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from src.rag.retriever_setup import retriever_chain
@@ -14,36 +15,32 @@ def documents(description: str, file: UploadFile = File(...)):
     print(filename)
     if not filename.endswith(".pdf") and not filename.endswith(".txt"):
         from fastapi import HTTPException
-
         raise HTTPException(
             status_code=400, detail="Only PDF and TXT files are supported"
         )
 
     file_bytes = file.file.read()
 
-    suffix = os.path.splitext(filename)[1]
-    tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    tmp_path = tmp_file.name
     try:
-        tmp_file.write(file_bytes)
-        tmp_file.flush()
-        tmp_file.close()
-
-        if filename.endswith(".pdf"):
-            loader = PyPDFLoader(tmp_path)
+        if filename.endswith(".txt"):
+            # Directly create Document from bytes — no disk I/O needed
+            text = file_bytes.decode("utf-8", errors="replace")
+            docs = [Document(page_content=text, metadata={"source": filename})]
         else:
-            loader = TextLoader(tmp_path, encoding="utf-8")
-
-        try:
-            docs = loader.load()
-        except Exception as e:
-            from fastapi import HTTPException
-            raise HTTPException(status_code=500, detail=f"Error loading file: {e}")
-    finally:
-        try:
-            os.unlink(tmp_path)
-        except Exception:
-            pass
+            # PDFs require a file path, write to /tmp
+            tmp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+                    tmp_file.write(file_bytes)
+                    tmp_path = tmp_file.name
+                loader = PyPDFLoader(tmp_path)
+                docs = loader.load()
+            finally:
+                if tmp_path and os.path.exists(tmp_path):
+                    os.unlink(tmp_path)
+    except Exception as e:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=500, detail=f"Error loading file: {e}")
 
     description_llm = enhance_description_with_llm(description)
 
