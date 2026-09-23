@@ -29,17 +29,24 @@ async def rag_query(req: QueryRequest):
     Returns:
         The generated response from the RAG pipeline.
     """
-    # chat_history=ChatInMemoryHistory.get_session_history(req.token)
-    chat_history = ChatHistory.get_session_history(req.session_id)
-    await chat_history.add_message(HumanMessage(content=req.query))
+    try:
+        # chat_history=ChatInMemoryHistory.get_session_history(req.token)
+        chat_history = ChatHistory.get_session_history(req.session_id)
+        await chat_history.add_message(HumanMessage(content=req.query))
 
-    messages = await chat_history.get_messages()
-    result = builder.invoke({"messages": messages})
-    output_text = result["messages"][-1].content
+        messages = await chat_history.get_messages()
+        result = builder.invoke({"messages": messages})
+        output_text = result["messages"][-1].content
 
-    await chat_history.add_message(AIMessage(content=output_text))
+        await chat_history.add_message(AIMessage(content=output_text))
 
-    return {"result": result["messages"][-1]}
+        return {"result": result["messages"][-1]}
+    except Exception as e:
+        import traceback
+        error_msg = traceback.format_exc()
+        print("QUERY ERROR:", error_msg)
+        from fastapi import HTTPException
+        raise HTTPException(status_code=500, detail=f"Query failed: {error_msg}")
 
 
 @router.post("/rag/documents/upload")

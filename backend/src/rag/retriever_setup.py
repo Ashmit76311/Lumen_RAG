@@ -12,7 +12,10 @@ _embeddings = None
 def get_embeddings():
     global _embeddings
     if _embeddings is None:
-        _embeddings = FastEmbedEmbeddings()
+        _embeddings = FastEmbedEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2",
+            threads=1
+        )
     return _embeddings
 
 
