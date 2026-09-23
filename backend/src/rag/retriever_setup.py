@@ -6,7 +6,13 @@ from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 
-embeddings = FastEmbedEmbeddings()
+_embeddings = None
+
+def get_embeddings():
+    global _embeddings
+    if _embeddings is None:
+        _embeddings = FastEmbedEmbeddings()
+    return _embeddings
 
 
 def retriever_chain(chunks: list[Document]):
@@ -22,7 +28,7 @@ def retriever_chain(chunks: list[Document]):
     try:
         QdrantVectorStore.from_documents(
             documents=chunks,
-            embedding=embeddings,
+            embedding=get_embeddings(),
             url=os.getenv("QDRANT_URL", "http://qdrant:6333"),
             api_key=os.getenv("QDRANT_API_KEY", ""),
             collection_name=os.getenv("QDRANT_CODE_COLLECTION", "adaptive_rag_docs"),
@@ -67,7 +73,7 @@ def get_retriever():
             )
             vectorstore = QdrantVectorStore.from_documents(
                 documents=[dummy_doc],
-                embedding=embeddings,
+                embedding=get_embeddings(),
                 url=url,
                 api_key=api_key,
                 collection_name=collection_name,
@@ -75,7 +81,7 @@ def get_retriever():
             )
         else:
             vectorstore = QdrantVectorStore.from_existing_collection(
-                embedding=embeddings,
+                embedding=get_embeddings(),
                 collection_name=collection_name,
                 url=url,
                 api_key=api_key,
