@@ -1,7 +1,3 @@
-"""
-Common tools for document and description processing.
-"""
-
 from src.llms.groq_llm import llm
 
 

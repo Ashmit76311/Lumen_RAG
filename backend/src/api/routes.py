@@ -1,7 +1,3 @@
-"""
-API routes for RAG operations.
-"""
-
 import traceback
 import logging
 
@@ -37,12 +33,10 @@ async def rag_query(req: QueryRequest):
     chat_history = ChatHistory.get_session_history(req.session_id)
     await chat_history.add_message(HumanMessage(content=req.query))
 
-    # Fetch full history
     messages = await chat_history.get_messages()
     result = builder.invoke({"messages": messages})
     output_text = result["messages"][-1].content
 
-    # Save assistant message
     await chat_history.add_message(AIMessage(content=output_text))
 
     return {"result": result["messages"][-1]}
@@ -60,7 +54,6 @@ async def upload_file(
     try:
         status_upload = documents(description, file)
 
-        # Save document metadata to DB
         doc_id = str(uuid.uuid4())
         await db.documents.insert_one(
             {

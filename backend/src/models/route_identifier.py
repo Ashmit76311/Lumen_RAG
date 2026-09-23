@@ -1,7 +1,3 @@
-"""
-Route identifier model.
-"""
-
 from pydantic import BaseModel
 
 

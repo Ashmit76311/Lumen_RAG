@@ -1,7 +1,3 @@
-"""
-Query request model.
-"""
-
 from pydantic import BaseModel
 
 

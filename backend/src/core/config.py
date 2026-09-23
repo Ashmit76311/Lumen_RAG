@@ -1,7 +1,3 @@
-"""
-Core configuration and environment settings.
-"""
-
 import os
 
 from dotenv import load_dotenv
@@ -22,6 +18,5 @@ class Settings:
 
 settings = Settings()
 
-# Set env variables for LangChain integrations
 os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
 os.environ["TAVILY_API_KEY"] = settings.TAVILY_API_KEY

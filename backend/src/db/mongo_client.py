@@ -1,7 +1,3 @@
-"""
-MongoDB client initialization.
-"""
-
 import os
 
 from motor.motor_asyncio import AsyncIOMotorClient

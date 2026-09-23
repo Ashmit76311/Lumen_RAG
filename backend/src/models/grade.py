@@ -1,7 +1,3 @@
-"""
-Grade model for relevance scoring.
-"""
-
 from pydantic import BaseModel, Field
 
 

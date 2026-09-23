@@ -1,7 +1,3 @@
-"""
-Verification result model.
-"""
-
 from pydantic import BaseModel, Field
 
 

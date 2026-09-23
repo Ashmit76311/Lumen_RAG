@@ -1,14 +1,10 @@
-"""
-Graph builder module for the adaptive RAG system.
-"""
-
 from langchain_community.tools import TavilySearchResults
 from langchain_core.messages import AIMessage
 from langchain_core.prompts import PromptTemplate
 from langgraph.constants import START, END
 from langgraph.graph.state import StateGraph
 
-from src.rag.reAct_agent import agent_executor
+from src.rag.reAct_agent import get_agent_executor
 from src.rag.retriever_setup import get_retriever
 from src.config.settings import Config
 from src.llms.groq_llm import llm
@@ -20,7 +16,6 @@ from src.tools.graph_tools import routing_tool, doc_tool
 config = Config()
 
 
-# Node implementations
 def query_classifier(state: State):
     """
     Classify the query to determine if it's related to indexed documents.
@@ -81,9 +76,9 @@ def retriever_node(state: State):
         dict: Updated messages with tool calls.
     """
     messages = state["latest_query"]
+    agent_executor = get_agent_executor()
     result = agent_executor.invoke({"input": messages})
 
-    # Extract tool calls
     intermediate_steps = result.get("intermediate_steps", [])
     tool_calls = []
     if intermediate_steps:
@@ -182,10 +177,8 @@ def web_search(state: State):
     Returns:
         dict: Search results as messages.
     """
-    # Initialize the Tavily tool
     search_tool = TavilySearchResults()
 
-    # Search a query
     result = search_tool.invoke(state["latest_query"])
 
     contents = [item["content"] for item in result if "content" in item]
@@ -194,7 +187,6 @@ def web_search(state: State):
     return {"messages": [{"role": "assistant", "content": "\n\n".join(contents)}]}
 
 
-# Build the graph
 graph = StateGraph(State)
 
 graph.add_node("query_analysis", query_classifier)

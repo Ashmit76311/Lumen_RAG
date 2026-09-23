@@ -1,7 +1,3 @@
-"""
-State model for the graph-based RAG system.
-"""
-
 from typing import TypedDict, Annotated, Optional
 
 from langchain_core.messages import AnyMessage

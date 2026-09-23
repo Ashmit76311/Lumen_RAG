@@ -1,7 +1,3 @@
-"""
-Main FastAPI application entry point.
-"""
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -10,7 +6,6 @@ from src.auth.routes import router as auth_router
 
 app = FastAPI(title="Adaptive RAG API")
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

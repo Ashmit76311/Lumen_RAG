@@ -1,7 +1,3 @@
-"""
-Auth routes.
-"""
-
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from src.db.mongo_client import db

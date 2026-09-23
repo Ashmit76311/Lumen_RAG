@@ -1,7 +1,3 @@
-"""
-Chat history storage using MongoDB backend.
-"""
-
 from datetime import datetime
 from typing import List
 
@@ -54,7 +50,6 @@ class MongoDBChatMessageHistory(BaseChatMessageHistory):
         cursor = collection.find({"session_id": self.session_id}).sort("timestamp", 1)
         docs = await cursor.to_list(length=1000)
 
-        # Convert to BaseMessage objects
         return messages_from_dict(
             [
                 {

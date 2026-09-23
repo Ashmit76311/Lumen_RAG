@@ -1,7 +1,3 @@
-"""
-Auth utilities for password hashing and JWT token generation.
-"""
-
 import os
 from datetime import datetime, timedelta
 from jose import jwt, JWTError

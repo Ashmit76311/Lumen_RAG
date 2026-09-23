@@ -1,7 +1,3 @@
-"""
-Tools for graph routing and document grading.
-"""
-
 from typing import Literal
 
 from langchain_core.prompts import PromptTemplate

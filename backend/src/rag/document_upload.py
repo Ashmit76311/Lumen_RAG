@@ -1,7 +1,3 @@
-"""
-Document upload and processing module.
-"""
-
 import os
 import tempfile
 
@@ -61,10 +57,8 @@ def documents(description: str, file: UploadFile = File(...)):
     finally:
         os.unlink(tmp_path)
 
-    # Enhance description using LLM
     description_llm = enhance_description_with_llm(description)
 
-    # Save enhanced description
     with open("description.txt", "w", encoding="utf-8") as f:
         f.write(description_llm)
 
@@ -72,7 +66,6 @@ def documents(description: str, file: UploadFile = File(...)):
         print("Document description from storage:")
         print(f.read())
 
-    # Split documents into chunks
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
     chunks = splitter.split_documents(docs)
 

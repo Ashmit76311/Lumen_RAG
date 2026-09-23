@@ -1,7 +1,3 @@
-"""
-Configuration settings for the application.
-"""
-
 from pathlib import Path
 
 import yaml

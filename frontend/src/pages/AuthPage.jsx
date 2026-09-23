@@ -46,7 +46,6 @@ export default function AuthPage() {
         setMode('login');
         setPassword('');
         setConfirmPassword('');
-        // TODO: Toast success
       } else {
         localStorage.setItem('lumen_token', data.token);
         navigate('/chat');

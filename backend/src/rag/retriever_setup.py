@@ -1,7 +1,3 @@
-"""
-Retriever setup and vector store configuration.
-"""
-
 import os
 
 from langchain_core.documents import Document
@@ -87,7 +83,6 @@ def get_retriever():
 
         retriever = vectorstore.as_retriever()
 
-        # Load document description
         if os.path.exists("description.txt"):
             with open("description.txt", "r", encoding="utf-8") as f:
                 description = f.read()

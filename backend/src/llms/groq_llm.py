@@ -1,7 +1,3 @@
-"""
-Groq LLM initialization and configuration.
-"""
-
 import os
 
 from dotenv import load_dotenv
